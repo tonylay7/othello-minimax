@@ -12,7 +12,7 @@ evaluation_table[8][8] = {
     };
 
 // Calculate the static evaluation of a given state (in maximising player's perspective)
-int MinimaxMoveChooser::getStaticEval(BoardState boardState) {
+int MinimaxMoveChooser::getStaticEval(BoardState& boardState) {
     int currentEval = 0;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
@@ -28,7 +28,7 @@ int MinimaxMoveChooser::getStaticEval(BoardState boardState) {
 }
 
 // Minimax algorithm with alpha beta pruning
-int MinimaxMoveChooser::minimax(BoardState boardState, int depth, int alpha, int beta) {
+int MinimaxMoveChooser::minimax(BoardState& boardState, int depth, int alpha, int beta) {
     std::vector<std::vector<int>> legalMoves = boardState.getLegalMoves();
     if (depth == 0 || boardState.isGameOver() == true) {
         return getStaticEval(boardState);
@@ -79,7 +79,7 @@ int MinimaxMoveChooser::minimax(BoardState boardState, int depth, int alpha, int
     }
 }
 // Choice of move is made by comparing all minimax values of the possible moves available and selecting the best move for white
-std::vector<int> MinimaxMoveChooser::chooseMove(BoardState boardState) {
+std::vector<int> MinimaxMoveChooser::chooseMove(BoardState& boardState) {
     int searchDepth = 5;
     std::vector<std::vector<int>> legalMoves = boardState.getLegalMoves();
     if (legalMoves.empty())

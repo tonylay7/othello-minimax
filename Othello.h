@@ -4,5 +4,8 @@
 #pragma once
 
 #include <iostream>
+#include "BoardState.h"
+#include "MinimaxMoveChooser.h"
+#include "TextDisplay.h"
 
 // TODO: Reference additional headers your program requires here.
