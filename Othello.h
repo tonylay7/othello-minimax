@@ -4,8 +4,13 @@
 #pragma once
 
 #include <iostream>
+#include <sstream>
 #include "BoardState.h"
 #include "MinimaxMoveChooser.h"
 #include "TextDisplay.h"
 
-// TODO: Reference additional headers your program requires here.
+class Othello {
+public:
+	std::vector<int> parseInput(std::string input);
+	bool checkInput(std:: string input);
+};

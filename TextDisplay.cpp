@@ -8,11 +8,9 @@ void TextDisplay::refreshDisplay() {
             else if (boardState->getCell(i, j) == 1) boardDisplay[i][j] = 'w';
         }
     }
-
-    std::cout << "boardDisplay" << std::endl; // Show board
     printDisplay(); // Show board
-
 }
+
 void TextDisplay::printDisplay() {
     std::cout << "   0  1  2  3  4  5  6  7\n";
     for (int i = 0; i < 8; ++i) {
