@@ -13,4 +13,5 @@ class Othello {
 public:
 	std::vector<int> parseInput(std::string input);
 	bool checkInput(std:: string input);
+	void printResult(BoardState*);
 };

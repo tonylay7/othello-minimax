@@ -1,6 +1,7 @@
 #include "BoardState.h"
-
+#include <iostream>
 BoardState::BoardState() {
+
 };
 
 // Get the currentColour of the cell at (x,y)
@@ -114,14 +115,13 @@ std::vector<std::vector<int>> BoardState::getLegalMoves() {
 	return legalMoves;
 }
 
-// Return a deep copy of the current board state
-BoardState *BoardState::deepCopy() {
-	BoardState *newBoardState = new BoardState();
-	for (int i = 0; i < 8; i++)
-		for (int j = 0; j < 8; j++)
-			newBoardState->setCell(i, j, getCell(i, j));
-	newBoardState->currentColour = currentColour;
-	return newBoardState;
+//  Copy constructor
+BoardState::BoardState(BoardState& boardState) {
+    for (int i = 0; i < 8; i++)
+        for (int j = 0; j < 8; j++)
+            _board[i][j] = boardState._board[i][j];
+
+    currentColour = boardState.currentColour;
 }
 
 // Return largest value of i < x such that board[j][i] is opposite to currentColour for all
@@ -227,8 +227,8 @@ int BoardState::checkDownRight(int x, int y) {
     else return -1;
 }
 
-int BoardState::getResult() {
-    int scores[2]{}; // white count then black count
+int* BoardState::getScores() {
+    int scores[2]{}; // Black Count, White Count
     int white = 0;
     int black = 0;
     for (int i = 0; i < 8; i++)
@@ -237,7 +237,11 @@ int BoardState::getResult() {
                 white++;
             else if (getCell(i, j) == -1)
                 black++;
-    scores[0] = white;
-    scores[1] = black;
-    return scores[0] - scores[1];
+    std::cout << black << std::endl;
+    std::cout << white << std::endl;
+    scores[0] = black;
+    scores[1] = white;
+    std::cout << scores[0] << std::endl;
+    std::cout << scores[1] << std::endl;
+    return scores;
 }

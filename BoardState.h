@@ -22,11 +22,11 @@ public:
 
 	BoardState();
 	std::vector<std::vector<int>> getLegalMoves();
+	BoardState(BoardState& boardState);
 	bool isGameOver();
 	bool checkLegalMove(int, int);
 	void makeLegalMove(int, int);
-	BoardState* deepCopy();
 	int getCell(int, int);
 	void setCell(int, int, int);
-	int getResult();
+	int* getScores();
 };

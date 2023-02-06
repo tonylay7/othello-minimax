@@ -6,9 +6,19 @@
 
 std::vector<int> parseInput(std::string input) {
     std::vector<int> move = {input[0] - '0',input[2] - '0'};
-    std::cout << move[0] << std::endl;
-    std::cout << move[1] << std::endl;
     return move;
+}
+
+void printResult(BoardState* currentState, TextDisplay* textDisplay) {
+    textDisplay->refreshDisplay();
+    std::cout << "Game over: ";
+    int* scores = currentState->getScores();
+    std::cout << scores[0] << std::endl;
+    std::cout << scores[1] << std::endl;
+    int result = scores[1] - scores[0];
+    if (result < 0) std::cout << "Black wins" << " | Final score: Black " << scores[0] << " - " << scores[1] << "White";
+    else if (result > 0) std::cout << "White wins" << " | Final score: Black " << scores[0] << " - " << scores[1] << "White";
+    else  std::cout << "Draw" << "| Final score: Black " << scores[0] << " - " << scores[1] << "White";
 }
 
 bool checkInput(std::string input) {
@@ -21,6 +31,7 @@ bool checkInput(std::string input) {
     }
     return false;
 }
+
 int main(){
     BoardState *currentState = new BoardState();
     currentState->setCell(3, 3, 1);
@@ -48,8 +59,8 @@ int main(){
             std::vector<int> move = mc->chooseMove(*currentState);
             if (!move.empty()) {
                 currentState->makeLegalMove(move[0], move[1]);
-                textDisplay->refreshDisplay();
             }
+            else printResult(currentState,textDisplay);
         }
 
         // The player has legal moves to make so allow them to make a move
@@ -74,9 +85,13 @@ int main(){
                         std::vector<int> move = parseInput(coords);
                         if (currentState->checkLegalMove(move[0], move[1])) {
                             currentState->makeLegalMove(move[0], move[1]);
-                            textDisplay->refreshDisplay();
+                            break;
                         }
-                        break;
+                        else {
+                            std::cout << "This input is not valid. Please try again." << std::endl;
+                            std::cin.clear();
+                            std::cin.ignore();
+                        }   
                     }
                     else std::cout << "This input is not valid. Please try again." << std::endl;
                 }
@@ -85,15 +100,13 @@ int main(){
                 std::vector<int> move = mc->chooseMove(*currentState);
                 if (!move.empty()) {
                     currentState->makeLegalMove(move[0], move[1]);
-                    textDisplay->refreshDisplay();
                 }
                 // AI cannot move, so change back colour
                 else {  
                     currentState->currentColour *= -1;
-                    if (currentState->getLegalMoves().empty()) {  // Computer has no moves either game over
-                        std::cout << "Game over: " << std::endl;
-                        textDisplay->refreshDisplay();
-                    }
+                    
+                    // If the AI has no moves then the game ends
+                    if (currentState->getLegalMoves().empty()) printResult(currentState,textDisplay);
                 }
             }
         }
